@@ -1,6 +1,11 @@
 name: Devsecops End To End
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   code-quality:
       uses: ./github/workflows/code-quality.yml
