@@ -1,0 +1,30 @@
+#Scans packages-if any issues or vulnerabilities are there
+#FOR EXAMPLE if in requirements.txt we have an image (flask=3.x) that has vulnerabilitiies 
+#pip-audit , for package scanning
+#Likewise  for JAVA, we can find java dependency audit tools, for npm, npm audit etc.
+name: Dependency Scan
+on: 
+  workflow_call:
+jobs:
+  dependency-check:
+      runs-on: ubuntu-latest
+      steps:
+         - name: Code Checkout
+           uses: actions/checkout@v4
+       
+         - name: Setup Python 3.12
+           uses: actions/setup-python@v5
+           with:
+              python-version: "3.12"
+
+         - name: Install Pip Audit
+           uses: pip install pip-audit
+          
+
+         - name: Audit Dependencies
+           run: pip-audit -r requirements.txt
+
+         - name: Run Dependency Audit
+           run: pip-audit -r requirements.txt
+         
+        
