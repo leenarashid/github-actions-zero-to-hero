@@ -1,4 +1,4 @@
-name: Devsecops End To End
+name: Devsecops End-to-End
 on:
   workflow_dispatch:
 jobs:
