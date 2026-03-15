@@ -3,16 +3,13 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 jobs:
   code-quality:
       uses: ./.github/workflows/code-quality.yml
 
   secret-scan:
       uses: ./.github/workflows/secrets-scan.yml
+      secrets: inherit
 
   dependency-scan:
       uses: ./.github/workflows/dependency-scan.yml
