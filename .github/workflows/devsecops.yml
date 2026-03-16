@@ -1,28 +1,28 @@
 name: Devsecops End-to-End
 on:
-  workflow_dispatch:      # push:
-  #   branches: [main]
-
+  workflow_dispatch: 
 jobs:
   code-quality:
-      uses: ./.github/workflows/code-quality.yml
-
+    uses: ./.github/workflows/code-quality.yml
   secret-scan:
-      uses: ./.github/workflows/secrets-scan.yml
-      secrets: inherit
+    uses: ./.github/workflows/secrets-scan.yml
+    secrets: inherit
   dependency-scan:
-      uses: ./.github/workflows/dependency-scan.yml
-
+    uses: ./.github/workflows/dependency-scan.yml
   docker-lint:
-      uses: ./.github/workflows/docker-lint.yml
-
+    uses: ./.github/workflows/docker-lint.yml
   build:
-    needs: [ code-quality, secret-scan,dependency-scan , docker-lint ]
+    needs: [code-quality, secret-scan, dependency-scan, docker-lint]
     uses: ./.github/workflows/docker-build-push.yml
-    secrets: inherit # use secrets this way using "inherit
-  trivy:
-     needs: [build]
-     uses: ./.github/workflows/image-scan.yml
-     secrets: inherit
+    with:
+      docker_username: ${{ vars.DOCKERHUB_USERNAME }}
+    secrets:
+         docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
 
- 
+  trivy:
+    needs: [build]
+    uses: ./.github/workflows/image-scan.yml
+    with:
+      docker_username: ${{ vars.DOCKERHUB_USERNAME }}
+    secrets:
+      docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
