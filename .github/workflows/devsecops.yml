@@ -2,7 +2,7 @@ name: Devsecops End-to-End
 on:
   workflow_dispatch: 
 jobs:
-  codequality:
+  code-quality:
     uses: ./.github/workflows/code-quality.yml
   secret-scan:
     uses: ./.github/workflows/secrets-scan.yml
