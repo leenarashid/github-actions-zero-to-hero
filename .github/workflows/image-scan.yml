@@ -24,6 +24,6 @@ jobs:
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@0.35.1
         with:
-          severity: 'CRITICAL'
-          exit-code: '1'  
-
+          image-ref: ${{ inputs.docker_username }}/github-actions-app:latest
+          severity: CRITICAL
+          exit-code: 1
