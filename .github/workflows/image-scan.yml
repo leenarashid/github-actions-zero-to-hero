@@ -15,7 +15,7 @@ jobs:
            username: ${{ secrets.DOCKER_USERNAME }}
            password: ${{ secrets.DOCKER_TOKEN}} 
       - name: Trivy Scan
-        uses: aquasecurity/trivy-action@0.35.1
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/github-actions-app:latest
           severity: CRITICAL
