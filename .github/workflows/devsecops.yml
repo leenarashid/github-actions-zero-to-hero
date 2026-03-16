@@ -11,18 +11,14 @@ jobs:
     uses: ./.github/workflows/dependency-scan.yml
   docker-lint:
     uses: ./.github/workflows/docker-lint.yml
-  build:
-    needs: [code-quality, secret-scan, dependency-scan, docker-lint]
-    uses: ./.github/workflows/docker-build-push.yml
-    with:
-      docker_username: ${{ vars.DOCKERHUB_USERNAME }}
-    secrets:
-         docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
-
+  build: 
+       needs: [ code-quality, secret-scan,dependency-scan , docker-lint ] 
+       uses: ./.github/workflows/docker-build-push.yml
+       secrets: 
+            inherit # use secrets this way 
+  
   trivy:
-    needs: [build]
-    uses: ./.github/workflows/image-scan.yml
-    with:
-      docker_username: ${{ vars.DOCKERHUB_USERNAME }}
+    needs: [build] 
+    uses: ./.github/workflows/image-scan.yml 
     secrets:
-      docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
+        inherit
