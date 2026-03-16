@@ -2,6 +2,13 @@ name: Docker Build & Push
 
 on: 
   workflow_call:
+   inputs:
+    docker_username:
+       required: true
+       type: string
+   secrets:
+    docker_token:
+      required: true
 
 jobs:
     build-and-push:
@@ -15,8 +22,8 @@ jobs:
             - name: Login to Docker Hub
               uses: docker/login-action@v3
               with:
-                username: ${{ vars.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_TOKEN }}
+                username: ${{ inputs.docker_username }}
+                password: ${{ secrets.docker_token }}
                 
             - name: Build & Push to Docker Hub
               uses: docker/build-push-action@v6
@@ -24,6 +31,6 @@ jobs:
                 context: .
                 push: true
                 tags: |
-                    ${{ vars.DOCKERHUB_USERNAME }}/github-actions-app:${{ github.ref_name }}
-                    ${{ vars.DOCKERHUB_USERNAME}}/github-actions-app:latest
-                    ${{ vars.DOCKERHUB_USERNAME }}/github-actions-app:${{ github.sha}}
+                    ${{ inputs.docker_username }}/github-actions-app:${{ github.ref_name }}
+                    ${{ inputs.docker_username }}/github-actions-app:latest
+                    ${{ inputs.docker_username }}/github-actions-app:${{ github.sha}}
